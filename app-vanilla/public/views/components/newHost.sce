@@ -1,0 +1,1 @@
+[[c= components/validHost || host="" hash="" address=""]]

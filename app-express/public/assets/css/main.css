@@ -1,0 +1,115 @@
+html {
+  background: #1D8Ac4;
+  color: #222222; }
+
+app {
+  display: flex;
+  flex-flow: column;
+  margin: 1rem 2.5rem;
+  gap: 1rem; }
+  @media (min-width: 1024px) {
+    app {
+      max-width: calc(1024px - 2.5rem * 2);
+      margin: 1rem auto; } }
+
+.hr {
+  border-bottom: 1.25px solid #222222;
+  width: 90%;
+  align-self: center; }
+
+.felx-br {
+  flex-basis: 100%;
+  height: 0; }
+
+blockquote.error {
+  background: #AAAAAA;
+  padding: 1rem 1.5rem;
+  border-left: 0.5rem solid;
+  border-radius: 0.5rem;
+  border-image: linear-gradient(to bottom, #D69F40, #CC3E1D) 1 100%;
+  color: #444444; }
+
+.flex {
+  display: flex; }
+
+div.navbar {
+  margin-bottom: 0.5rem;
+  flex-flow: row;
+  justify-content: space-evenly; }
+  div.navbar > .navbarItem {
+    flex-grow: 0.175;
+    text-align: center;
+    border-radius: 0 0 1em 1em;
+    background: #a07222;
+    line-height: 3em;
+    height: 3em;
+    font-size: 1rem;
+    cursor: pointer; }
+    div.navbar > .navbarItem.active {
+      background: #D69F40; }
+    div.navbar > .navbarItem:not(.active):hover {
+      background: #b78227; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    div.navbar.open {
+      flex-flow: column; }
+    div.navbar.closed > .navbarItem {
+      display: none; } }
+
+input,
+select,
+textarea {
+  border-radius: 0.6rem;
+  padding: 0.5em !important;
+  border: none;
+  display: block;
+  box-sizing: border-box;
+  transition: border 0.2s;
+  border-bottom: 0.2em solid rgba(186, 230, 23, 0); }
+  input[disabled],
+  select[disabled],
+  textarea[disabled] {
+    color: #444444;
+    font-weight: 100;
+    font-style: italic; }
+    input[disabled]:hover, input[disabled]:focus,
+    select[disabled]:hover,
+    select[disabled]:focus,
+    textarea[disabled]:hover,
+    textarea[disabled]:focus {
+      border-bottom: 0.2em solid #CC3E1D !important; }
+  input:hover, input:focus,
+  select:hover,
+  select:focus,
+  textarea:hover,
+  textarea:focus {
+    border-bottom: 0.2em solid #BAE617;
+    outline: none; }
+
+.btn,
+input[type="submit"] {
+  background: #BAE617;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  transition: 0.2s ease-out;
+  user-select: none;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .btn:not([disabled]),
+  input[type="submit"]:not([disabled]) {
+    cursor: pointer; }
+  .btn:not([disabled]):hover,
+  input[type="submit"]:not([disabled]):hover {
+    filter: brightness(85%); }
+  .btn:not([disabled]):active,
+  input[type="submit"]:not([disabled]):active {
+    filter: brightness(75%); }
+  .btn.red,
+  input[type="submit"].red {
+    background: #CC3E1D; }
+
+.contactForm {
+  flex-flow: column;
+  width: 100%;
+  gap: 1em; }

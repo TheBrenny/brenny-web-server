@@ -1,0 +1,52 @@
+{
+    "name": "<Express Server>",
+    "version": "1.0.0",
+    "description": "An express NodeJS server implementation!",
+    "private": false,
+    "main": "server.js",
+    "bin": {},
+    "scripts": {
+        "debug-nodmon": "nodemon --inspect -i ./app/views/ -i ./app/assets/ -i ./package*.json -i ./.vscode/ hostman.js",
+        "debug": "gulp default"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/TheBrenny/express-js-server.git"
+    },
+    "author": "TheBrenny <iam+dev@justbrenny.me>",
+    "contributors": [
+        "Jarod Brennfleck <iam+dev@justbrenny.me>"
+    ],
+    "keywords": [],
+    "license": "See license.md",
+    "bugs": {
+        "url": "https://github.com/TheBrenny/express-js-server/issues"
+    },
+    "homepage": "https://github.com/TheBrenny/express-js-server#readme",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "helmet": "^4.4.1",
+        "morgan": "^1.10.0",
+        "node-fetch": "^2.6.1",
+        "scetch": "^1.2.4"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.26.14",
+        "gulp": "^4.0.2",
+        "gulp-nodemon": "^2.5.0",
+        "gulp-sass": "^4.1.0",
+        "nodemon": "^2.0.7"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "app/public/views/",
+            "app/public/assets/"
+        ],
+        "watch": [
+            "server.js",
+            "app/"
+        ]
+    }
+}
