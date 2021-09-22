@@ -40,7 +40,6 @@ types.forEach(t => {
     });
 });
 
-
 Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
         let proc = cp.spawn("npm", ["update", "--save-dev"], {
@@ -49,7 +48,11 @@ Promise.resolve()
         });
         proc.stdout.on("data", data => console.log(data.toString()));
         proc.stderr.on("data", data => console.log(data.toString()));
-        proc.on("close", code => console.log("npm finished with code " + code));
+        proc.on("close", code => {
+            console.log("npm finished with code " + code);
+            if(code === 0) resolve();
+            else reject(code);
+        });
     }))
     .then(() => new Promise((resolve, reject) => {
         let proc = cp.spawn("npm", ["install", "--save-dev"], {
@@ -58,7 +61,11 @@ Promise.resolve()
         });
         proc.stdout.on("data", data => console.log(data.toString()));
         proc.stderr.on("data", data => console.log(data.toString()));
-        proc.on("close", code => console.log("npm finished with code " + code));
+        proc.on("close", code => {
+            console.log("npm finished with code " + code);
+            if(code === 0) resolve();
+            else reject(code);
+        });
     }))
     .then(() => fs.rmSync(path.join(pwd, "configure.js"), {recursive: true, force: true}))
     .then(() => console.log("Done!"));
