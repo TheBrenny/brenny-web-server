@@ -1,17 +1,16 @@
 require("dotenv").config();
-const path = require("path");
-// const appConfig = require("./config/configLoader");
+const appConfig = tryRequire("./config/configLoader");
 const forceDev = false;
 
 module.exports = {};
 
 module.exports.db = {
-    url: tryNew(URL, process.env.MYSQL_URL) || new URL(appConfig.db.url)
+    url: tryNew(URL, process.env.MYSQL_URL) || new URL(appConfig?.db?.url || "")
 };
 
 module.exports.session = {
-    secret: appConfig.session.secret,
-    cookieName: appConfig.session.cookieName,
+    secret: appConfig?.session?.secret || "secret",
+    cookieName: appConfig?.session?.cookieName || "session",
 };
 
 module.exports.env = {
@@ -58,4 +57,11 @@ function tryNew(clazz, param) {
         if(!!param) return new clazz(param);
     } catch(e) {}
     return false;
+}
+
+function tryRequire(module) {
+    try {
+        return require(module);
+    } catch(e) {}
+    return {};
 }
