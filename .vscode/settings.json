@@ -1,0 +1,7 @@
+{
+    "git.rebaseWhenSync": true,
+    "git.autoStash": true,
+    "files.associations": {
+        "*.sce": "html"
+    }
+}

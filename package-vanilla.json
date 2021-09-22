@@ -1,17 +1,16 @@
 {
-    "name": "<Vanilla Server>",
+    "name": "Vanilla - BWS",
     "version": "1.0.0",
     "description": "A vanilla NodeJS server implementation!",
     "private": false,
     "main": "server.js",
     "bin": {},
     "scripts": {
-        "debug-nodmon": "nodemon --inspect -i ./app/views/ -i ./app/assets/ -i ./package*.json -i ./.vscode/ hostman.js",
         "debug": "gulp default"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/thebrenny/vanilla-js-server.git"
+        "url": "git+https://github.com/thebrenny/brenny-web-server.git"
     },
     "author": "TheBrenny <iam+dev@justbrenny.me>",
     "contributors": [
@@ -20,13 +19,13 @@
     "keywords": [],
     "license": "See license.md",
     "bugs": {
-        "url": "https://github.com/thebrenny/vanilla-js-server/issues"
+        "url": "https://github.com/thebrenny/brenny-web-server/issues"
     },
-    "homepage": "https://github.com/thebrenny/vanilla-js-server#readme",
+    "homepage": "https://github.com/thebrenny/brenny-web-server#readme",
     "dependencies": {
-        "dotenv": "^8.2.0",
+        "dotenv": "^10.0.0",
         "node-fetch": "^2.6.1",
-        "scetch": "^1.2.4"
+        "scetch": "^1.5.5"
     },
     "devDependencies": {
         "browser-sync": "^2.26.13",
@@ -34,15 +33,5 @@
         "gulp-nodemon": "^2.5.0",
         "gulp-sass": "^4.1.0",
         "nodemon": "^2.0.6"
-    },
-    "nodemonConfig": {
-        "ignore": [
-            "app/public/views/",
-            "app/public/assets/"
-        ],
-        "watch": [
-            "server.js",
-            "app/"
-        ]
     }
 }

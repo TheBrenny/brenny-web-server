@@ -13,4 +13,3 @@
 <body>
 <script src="/assets/js/util.js"></script>
     [[i= partials/navbar ]]
-    <app>

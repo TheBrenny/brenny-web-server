@@ -6,84 +6,69 @@
   "configurations": [
     {
       "args": [
-        "-LLLL",
-        "${input:gulpTask}"
+        "default"
       ],
-      "name": "Gulp task",
+      "name": "gulp default",
       "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
       "request": "launch",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "type": "pwa-node"
-    },
-    {
-      "args": [
-        "-LLLL",
-        "dev"
+      "type": "pwa-node",
+      "console": "integratedTerminal",
+      // "preLaunchTask": "startMysql",
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
       ],
-      "name": "dev",
-      "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
-      "request": "launch",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "node"
-    },
-    {
-      "name": "Demo",
-      "request": "launch",
+      "env": {
+        "NODE_ENV": "dev"
+      },
       "runtimeArgs": [
+        "--preserve-symlinks",
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "just run",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--preserve-symlinks",
         "run-script",
         "start"
       ],
-      "env": {
-        "NODE_ENV": "dev",
-        "DEMO_MODE": "true"
-      },
-      "runtimeExecutable": "npm",
+      "console": "integratedTerminal",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "type": "pwa-node"
+      // "preLaunchTask": "startMysql",
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ]
     },
     {
-      "name": "Test All",
-      "request": "launch",
-      "runtimeArgs": [
-        "run-script",
-        "testDebug"
-      ],
-      "console": "integratedTerminal",
-      "runtimeExecutable": "npm",
+      "name": "Attach",
+      "port": "${input:askForPort}",
+      "address": "${input:askForHost}",
+      "request": "attach",
       "skipFiles": [
         "<node_internals>/**"
       ],
       "type": "pwa-node"
-    },
-    {
-      "name": "Test Current FIle",
-      "request": "launch",
-      "runtimeArgs": [
-        "run-script",
-        "testDebug"
-      ],
-      "args": [
-        "tests/${fileBasename}"
-      ],
-      "console": "integratedTerminal",
-      "runtimeExecutable": "npm",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "pwa-node"
-    },
+    }
   ],
   "inputs": [
     {
-      "id": "gulpTask",
+      "id": "askForPort",
       "type": "promptString",
-      "description": "Gulp task to debug"
+      "description": "Enter the port to attach to",
+    },
+    {
+      "id": "askForHost",
+      "type": "promptString",
+      "description": "Enter the host to attach to",
     }
   ]
 }

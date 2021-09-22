@@ -23,10 +23,11 @@
 <span style="background:yellow;color:black;">*Show a really quick and easy way to implement the package into a project!*</span>
 
 ```console
-$ npm i -g this-server-project
-NPM: Done!
+$ git clone brenny-web-server
+$ cd brenny-web-server
+$ node configure.js express # or "vanilla"
+$ npm start
 
-$ ./this-server-project localhost 80
 Server is listening at http://localhost:80...
 ```
 
@@ -37,7 +38,6 @@ Server is listening at http://localhost:80...
 <span style="background:yellow;color:black;">*If small readme, delete this?*</span>
 
 - [Quick Start](#quick-start)
-- [Table of Contents](#table-of-contents)
 - [Motivation](#motivation)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -48,11 +48,11 @@ Server is listening at http://localhost:80...
 
 ## Motivation
 
-Some text here...
+Why did you need to make this project and not use one that was already available?
 
 ## Installation
 
-Some text here...
+How do you install this thing?
 
 ## Usage
 
@@ -60,24 +60,24 @@ Show how to use the actual damn thing!
 
 ## API Reference
 
-Put any useful API info here.
+Put any useful API info here, in case I `require` it instead.
 
 ## Contributing
 
-Some text here!
+How can the average everyday Joe help make this project better? Maybe there's a [TODO](./TODO.md) list with things that need attention?
 
 ## Roadmap
 
-See the [issues page](./issues) for all known issues.
+See the [issues page](/issues) for all known issues.
 
-You can also take a peak at the visial [roadmap/kanban](./todo.md)
+You can also take a peak at the [MoSCoW targets](./TODO.md)
 
 ## The Bottom Stuff
 
 Author: TheBrenny <iam+dev@justbrenny.me> © 2020 // [See License.md](./license.md)
 
-- [justbrenny.me](https://justbrenny.me/dev)
-- [Music](https://justbrenny.me/dj)
-- [GitHub](https://github.com/TheBrenny/)
+- [I'm a Dev](https://justbrenny.me/dev)
+- [I'm a DJ](https://justbrenny.me/dj)
+- [I'm OS](https://github.com/TheBrenny/)
 
 License: [Not yet licensed](https://choosealicense.com/)

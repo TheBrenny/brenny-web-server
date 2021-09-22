@@ -1,17 +1,19 @@
 {
-    "name": "<Express Server>",
+    "name": "Express - BWS",
     "version": "1.0.0",
     "description": "An express NodeJS server implementation!",
-    "private": false,
+    "private": true,
     "main": "server.js",
     "bin": {},
+    "engines": {
+        "node": ">=14.0.0"
+    },
     "scripts": {
-        "debug-nodmon": "nodemon --inspect -i ./app/views/ -i ./app/assets/ -i ./package*.json -i ./.vscode/ hostman.js",
         "debug": "gulp default"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/TheBrenny/express-js-server.git"
+        "url": "git+https://github.com/TheBrenny/brenny-web-server.git"
     },
     "author": "TheBrenny <iam+dev@justbrenny.me>",
     "contributors": [
@@ -20,33 +22,29 @@
     "keywords": [],
     "license": "See license.md",
     "bugs": {
-        "url": "https://github.com/TheBrenny/express-js-server/issues"
+        "url": "https://github.com/TheBrenny/brenny-web-server/issues"
     },
-    "homepage": "https://github.com/TheBrenny/express-js-server#readme",
+    "homepage": "https://github.com/TheBrenny/brenny-web-server#readme",
     "dependencies": {
         "cors": "^2.8.5",
-        "dotenv": "^8.2.0",
-        "express": "^4.17.1",
-        "helmet": "^4.4.1",
+        "dotenv": "^10.0.0",
+        "express": "^5.0.0-alpha.8",
+        "express-mysql-session": "^2.1.7",
+        "express-session": "^1.17.2",
+        "helmet": "^4.6.0",
         "morgan": "^1.10.0",
         "node-fetch": "^2.6.1",
-        "scetch": "^1.2.4"
+        "nonce-express": "^1.0.2",
+        "scetch": "^1.5.5"
     },
     "devDependencies": {
-        "browser-sync": "^2.26.14",
+        "browser-sync": "^2.27.5",
         "gulp": "^4.0.2",
         "gulp-nodemon": "^2.5.0",
-        "gulp-sass": "^4.1.0",
-        "nodemon": "^2.0.7"
-    },
-    "nodemonConfig": {
-        "ignore": [
-            "app/public/views/",
-            "app/public/assets/"
-        ],
-        "watch": [
-            "server.js",
-            "app/"
-        ]
+        "gulp-sass": "^5.0.0",
+        "gulp-sourcemaps": "^3.0.0",
+        "nodemon": "^2.0.12",
+        "sass": "^1.42.0",
+        "sql-cli-repl": "^1.2.1"
     }
 }
