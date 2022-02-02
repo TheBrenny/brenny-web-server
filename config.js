@@ -42,7 +42,7 @@ module.exports.morgan = {
 
 module.exports.serverInfo = {
     host: process.env.HOST || "localhost",
-    port: process.env.PORT || 80
+    port: parseInt(process.env.PORT || 80)
 };
 
 function tryDo(fn, param, thisArg) {

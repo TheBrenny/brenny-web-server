@@ -6,7 +6,7 @@ const browserSync = require('browser-sync').create();
 const nodemon = require('gulp-nodemon');
 
 const host = process.env.HOST || "localhost";
-const port = process.env.PORT || 80;
+const port = parseInt(process.env.PORT || 80);
 
 gulp.task("sass", function () {
     return gulp.src("app/assets/scss/**/*.scss")
