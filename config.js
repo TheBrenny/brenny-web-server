@@ -1,16 +1,15 @@
 require("dotenv").config();
-const appConfig = tryRequire("./config/configLoader");
 const forceDev = false;
 
 module.exports = {};
 
 module.exports.db = {
-    url: tryNew(URL, process.env.MYSQL_URL) || new URL(appConfig?.db?.url || "")
+    url: tryNew(URL, process.env.MYSQL_URL) || ""
 };
 
 module.exports.session = {
-    secret: appConfig?.session?.secret || "secret",
-    cookieName: appConfig?.session?.cookieName || "session",
+    secret: process.env.SESSION_SECRET || "secret",
+    cookieName: process.env.SESSION_COOKIE || "session",
 };
 
 module.exports.env = {
