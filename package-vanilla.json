@@ -24,6 +24,7 @@
     "homepage": "https://github.com/thebrenny/brenny-web-server#readme",
     "dependencies": {
         "dotenv": "^10.0.0",
+        "mysql2": "^2.3.3",
         "node-fetch": "^2.6.1",
         "scetch": "^1.5.5"
     },
