@@ -35,12 +35,12 @@ let rmFiles = [
     "app-#/",
     "server-#.js",
 ];
-let lineCount = 0;
+let lineCount = 1;
 types.forEach(t => {
     rmFiles.forEach(f => {
         f = f.replace("#", t);
         try {
-            process.stdout.write(`  > Removing ${f}... `);
+            process.stdout.write(`  > Removing ${f}...`);
             fs.rmSync(path.join(pwd, f), {recursive: true, force: true});
             process.stdout.write(`Done!\n`);
         } catch(e) {
@@ -56,7 +56,7 @@ process.stdout.write(`\x1b[${lineSize+5}D\x1b[${lineCount}B`); // +5 == "Done!".
 
 Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
-        process.stdout.write(`> Installing dependencies... `);
+        process.stdout.write(`> Installing dependencies...`);
         let proc = cp.spawn("npm", ["install", "--save", "--save-dev"], {
             shell: true,
             windowsHide: true,
@@ -75,7 +75,7 @@ Promise.resolve()
         });
     }))
     .then(() => new Promise((resolve, reject) => {
-        process.stdout.write(`> Updating dependencies to the latest versions... `);
+        process.stdout.write(`> Updating dependencies to the latest versions...`);
         let proc = cp.spawn("npm", ["update", "--save", "--save-dev"], {
             shell: true,
             windowsHide: true,
