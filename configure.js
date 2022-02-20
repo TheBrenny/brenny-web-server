@@ -89,9 +89,9 @@ Promise.resolve()
     }))
     .then(() => {
         process.stdout.write(`> Deleting configure script... `);
-        fs.rmSync(path.join(pwd, "configure.js"), {recursive: true, force: true}
+        fs.rmSync(path.join(pwd, "configure.js"), {recursive: true, force: true});
         process.stdout.write(`Done!\n`);
-    }))
+    })
     .then(() => {
         process.stdout.write(`All done!`);
     });
