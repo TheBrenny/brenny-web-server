@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const cp = require("child_process");
+const types = ["vanilla", "express"];
 
 if(process.argv.length < 3) {
     printUsage();
@@ -8,7 +9,6 @@ if(process.argv.length < 3) {
     return;
 }
 
-const types = ["vanilla", "express"];
 const type = process.argv[2];
 
 if(types.includes(type) === false) {
