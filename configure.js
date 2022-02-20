@@ -28,7 +28,7 @@ fs.renameSync(path.join(pwd, `app-${type}`), path.join(pwd, "app"));
 fs.renameSync(path.join(pwd, `server-${type}.js`), path.join(pwd, "server.js"));
 process.stdout.write("Done!\n");
 
-process.stdout.write("> Removing redundant files and folders...\0337\n");
+process.stdout.write("> Removing redundant files and folders...\x1b7\n");
 let rmFiles = [
     "package-#.json",
     "app-#/",
@@ -43,13 +43,13 @@ types.forEach(t => {
             fs.rmSync(path.join(pwd, f), {recursive: true, force: true});
             process.stdout.write(`Done!\n`);
         } catch(e) {
-            process.stderr.write(`\033[31mError!\n    ! Failed to remove ${f}. Do this manually.\033[0m\n`);
+            process.stderr.write(`\x1b[31mError!\n    ! Failed to remove ${f}. Do this manually.\x1b[0m\n`);
             lineCount += 1; // bc we print on a new line!
         }
         lineCount += 1; // bc we're adding a line anyway
     });
 });
-process.stdout.write(`\0338\033[${lineCount}ADone!\033[${lineCount}B\033[0G`);
+process.stdout.write(`\x1b8\x1b[${lineCount}ADone!\x1b[${lineCount}B\x1b[0G`);
 
 Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
@@ -66,7 +66,7 @@ Promise.resolve()
                 process.stdout.write(`Done!\n`);
                 resolve();
             } else {
-                process.stderr.write(`\033[31mError!\n  ! Failed to install dependencies - run 'npm i' and diagnose.\n  ! Proceeding anyway...\033[0m\n`);
+                process.stderr.write(`\x1b[31mError!\n  ! Failed to install dependencies - run 'npm i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
                 reject(code);
             }
         });
@@ -85,7 +85,7 @@ Promise.resolve()
                 process.stdout.write(`Done!\n`);
                 resolve();
             } else {
-                process.stderr.write(`\033[31mError!\n  ! Failed to update dependencies - run 'npm i' and diagnose.\n  ! Proceeding anyway...\033[0m\n`);
+                process.stderr.write(`\x1b[31mError!\n  ! Failed to update dependencies - run 'npm i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
                 reject(code);
             }
         });
