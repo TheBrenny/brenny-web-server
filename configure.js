@@ -28,7 +28,8 @@ fs.renameSync(path.join(pwd, `app-${type}`), path.join(pwd, "app"));
 fs.renameSync(path.join(pwd, `server-${type}.js`), path.join(pwd, "server.js"));
 process.stdout.write("Done!\n");
 
-process.stdout.write("> Removing redundant files and folders...\x1b7\n");
+let lineSize = "> Removing redundant files and folders...".length;
+process.stdout.write("> Removing redundant files and folders...\n");
 let rmFiles = [
     "package-#.json",
     "app-#/",
@@ -49,7 +50,9 @@ types.forEach(t => {
         lineCount += 1; // bc we're adding a line anyway
     });
 });
-process.stdout.write(`\x1b8\x1b[${lineCount}ADone!\x1b[${lineCount}B\x1b[0G`);
+process.stdout.write(`\x1b[${lineSize}C\x1b[${lineCount}A`);
+process.stdout.write(`Done!`);
+process.stdout.write(`\x1b[${lineSize+5}D\x1b[${lineCount}B`); // +5 == "Done!".length
 
 Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
