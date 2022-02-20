@@ -26,7 +26,7 @@ const pwd = fs.realpathSync(path.resolve(__dirname, "."));
 fs.renameSync(path.join(pwd, `package-${type}.json`), path.join(pwd, "package.json"));
 fs.renameSync(path.join(pwd, `app-${type}`), path.join(pwd, "app"));
 fs.renameSync(path.join(pwd, `server-${type}.js`), path.join(pwd, "server.js"));
-process.stdout.write("Done!\n");
+process.stdout.write(done() + "\n");
 
 let lineSize = "> Removing redundant files and folders...".length;
 process.stdout.write("> Removing redundant files and folders...\n");
@@ -42,7 +42,7 @@ types.forEach(t => {
         try {
             process.stdout.write(`  > Removing ${f}...`);
             fs.rmSync(path.join(pwd, f), {recursive: true, force: true});
-            process.stdout.write(`Done!\n`);
+            process.stdout.write(`${done()}\n`);
         } catch(e) {
             process.stderr.write(`\x1b[31mError!\n    ! Failed to remove ${f}. Do this manually.\x1b[0m\n`);
             lineCount += 1; // bc we print on a new line!
@@ -51,7 +51,7 @@ types.forEach(t => {
     });
 });
 process.stdout.write(`\x1b[${lineSize}C\x1b[${lineCount}A`);
-process.stdout.write(`Done!`);
+process.stdout.write(done());
 process.stdout.write(`\x1b[${lineSize+5}D\x1b[${lineCount}B`); // +5 == "Done!".length
 
 Promise.resolve()
@@ -66,7 +66,7 @@ Promise.resolve()
         proc.on("close", code => {
             //console.log("npm finished with code " + code);
             if(code === 0) {
-                process.stdout.write(`Done!\n`);
+                process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
                 process.stderr.write(`\x1b[31mError!\n  ! Failed to install dependencies - run 'npm i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
@@ -85,7 +85,7 @@ Promise.resolve()
         proc.on("close", code => {
             //console.log("npm finished with code " + code);
             if(code === 0) {
-                process.stdout.write(`Done!\n`);
+                process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
                 process.stderr.write(`\x1b[31mError!\n  ! Failed to update dependencies - run 'npm i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
@@ -96,16 +96,19 @@ Promise.resolve()
     .then(() => {
         process.stdout.write(`> Deleting configure script...`);
         fs.rmSync(path.join(pwd, "configure.js"), {recursive: true, force: true});
-        process.stdout.write(`Done!\n`);
+        process.stdout.write(`${done()}\n`);
     })
     .then(() => {
         process.stdout.write(`> Deleting git remote reference...`);
         process.stdout.write(`Coming Soon!\n`);
     })
     .then(() => {
-        process.stdout.write(`All done!\n`);
+        process.stdout.write(`\x1b[32mAll done!\x1b[0m\n`);
     });
 
 function printUsage() {
     console.log(`Usage: node configure.js <${types.join("|")}>`);
+}
+function done() {
+    return "\x1b[32mDone!\x1b[0m";
 }
