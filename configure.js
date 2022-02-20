@@ -96,6 +96,10 @@ Promise.resolve()
         process.stdout.write(`Done!\n`);
     })
     .then(() => {
+        process.stdout.write(`> Deleting git remote reference...`);
+        process.stdout.write(`Coming Soon!\n`);
+    })
+    .then(() => {
         process.stdout.write(`All done!\n`);
     });
 
