@@ -160,9 +160,18 @@ input[type="submit"] {
 }
 
 #error {
-    @extend .block;
-    @extend .wrap;
+    display: flex;
+    justify-content: space-between;
     flex-direction: column;
+
+    box-shadow: 0 5px 10px $darkgrey;
+    background-color: $white;
+
+    width: 70%;
+    max-width: 1020px;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 50px;
 
     .preWrap {
         background: $lightgrey;
