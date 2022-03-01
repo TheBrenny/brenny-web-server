@@ -1,4 +1,11 @@
 // https://coolors.co/1d8ac4-d69f40-bae617-cc3e1d-222222
+$black: #222222; // Text color
+$notblack: #444444;
+$lightgrey: #cccccc;
+$grey: #aaaaaa; // White could be accent?
+$darkgrey: #777777;
+$white: #efefef; // White could be accent?
+
 $blue: #1D8Ac4; // Background
 $green: #BAE617; // Green means go!
 $red: #CC3E1D; // Red is bad!
@@ -7,11 +14,6 @@ $orange: #D69F40;
 $navActive: $orange;
 $navHover: scale-color($navActive, $lightness: -20%);
 $navInactive: scale-color($navActive, $lightness: -30%);
-$black: #222222; // Text color
-$notblack: #444444;
-$white: #EFEFEF; // White could be accent?
-$grey: #AAAAAA; // White could be accent?
-// $alphawhite: change-color(#EFEFEF, $alpha: 0.2); // White could be accent?
 
 @import "mixins";
 
@@ -155,4 +157,48 @@ input[type="submit"] {
     flex-flow: column;
     width: 100%;
     gap: 1em;
+}
+
+#error {
+    @extend .block;
+    @extend .wrap;
+    flex-direction: column;
+
+    .preWrap {
+        background: $lightgrey;
+        border-radius: 0.5em;
+        box-shadow: inset -5px 0 20px -5px $darkgrey;
+        padding-bottom: 0.6em;
+
+        pre {
+            overflow-x: scroll;
+            padding: 1em;
+            padding-bottom: 0.5em;
+            color: $darkgrey;
+
+            &::-webkit-scrollbar {
+                width: 0.75em;
+                height: 0.75em;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $grey;
+                border-radius: 10em;
+                margin: 2em;
+
+                &:hover {
+                    background-color: $darkgrey;
+                }
+            }
+
+            &::-webkit-scrollbar-button {
+                background: transparent;
+                width: 1em;
+            }
+
+            span.highlight {
+                color: $black;
+            }
+        }
+    }
 }

@@ -19,23 +19,30 @@ module.exports.handler = ((err, req, res, next) => {
     };
 
     // don't send the stack because of security risk!
-    if (!isProd) {
+    if(!isProd) {
         e.stack = err.stack;
     }
 
     console.error(e);
 
-    if (res.headersSent) {
+    if(res.headersSent) {
         return next(err);
     }
-    
-    // req.headers.accept = req.headers.accept.replace(/\*\/\*(;q=.+?|\s+?)(,|$)/g, ""); // this actually deletes the catch-all accept header
 
     res.format({
         "json": () => res.json(e),
-        "html": () => res.render("error", {
-            "error": e
-        }),
+        "html": () => {
+            if(!!e.stack) {
+                e.stack = e.stack.split("\n").map((line, i) => {
+                    let isNodeInternal = line.indexOf("node_modules") !== -1 || line.indexOf("internal/") !== -1 || line.indexOf("node:internal") !== -1;
+                    if(i === 0 || !isNodeInternal) line = `<span class="highlight">${line}</span>`;
+                    return line;
+                }).join("\n");
+            }
+            res.render("error", {
+                "error": e
+            });
+        },
         "default": () => res.send(JSON.stringify(e)).end()
     });
 });
