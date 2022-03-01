@@ -131,6 +131,8 @@ input[type="submit"] {
     transition: 0.2s ease-out;
     user-select: none;
     text-align: center;
+    text-decoration: none;
+    color: $black;
 
     display: flex;
     justify-content: center;
@@ -153,10 +155,17 @@ input[type="submit"] {
     }
 }
 
-.contactForm {
+.errorWrapper {
+    display: flex;
     flex-flow: column;
-    width: 100%;
-    gap: 1em;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 3em;
+
+    a.btn {
+        width: 200px;
+    }
 }
 
 #error {
@@ -171,7 +180,6 @@ input[type="submit"] {
     max-width: 1020px;
     border-radius: 5px;
     padding: 20px;
-    margin-bottom: 50px;
 
     .preWrap {
         background: $lightgrey;
