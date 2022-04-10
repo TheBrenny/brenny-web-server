@@ -2,11 +2,11 @@ const path = require("path");
 const fs = require("fs");
 const cp = require("child_process");
 const types = ["vanilla", "express"];
+let npm = "npm";
 
 if(process.argv.length < 3) {
     printUsage();
     process.exit(1);
-    return;
 }
 
 const type = process.argv[2];
@@ -15,8 +15,9 @@ if(types.includes(type) === false) {
     console.log("Invalid type: " + type);
     printUsage();
     process.exit(2);
-    return;
 }
+
+if(process.argv.includes("--use-pnpm")) npm = "pnpm";
 
 console.log("Cheers for choosing BWS! - Making server: " + type);
 let startTime = performance.now();
@@ -57,7 +58,7 @@ process.stdout.write(`\x1b[${lineSize+5}D\x1b[${lineCount}B`); // +5 == "Done!".
 Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
         process.stdout.write(`> Installing dependencies...`);
-        let proc = cp.spawn("npm", ["install", "--save", "--save-dev"], {
+        let proc = cp.spawn(npm, ["install", "--save", "--save-dev"], {
             shell: true,
             windowsHide: true,
         });
@@ -69,14 +70,14 @@ Promise.resolve()
                 process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
-                process.stderr.write(`\x1b[31mError!\n  ! Failed to install dependencies - run 'npm i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
+                process.stderr.write(`\x1b[31mError!\n  ! Failed to install dependencies - run '${npm} i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
                 reject(code);
             }
         });
     }))
     .then(() => new Promise((resolve, reject) => {
         process.stdout.write(`> Updating dependencies to the latest versions...`);
-        let proc = cp.spawn("npm", ["update", "--save", "--save-dev"], {
+        let proc = cp.spawn(npm, ["update", "--save", "--save-dev"], {
             shell: true,
             windowsHide: true,
         });
@@ -88,7 +89,7 @@ Promise.resolve()
                 process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
-                process.stderr.write(`\x1b[31mError!\n  ! Failed to update dependencies - run 'npm i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
+                process.stderr.write(`\x1b[31mError!\n  ! Failed to update dependencies - run '${npm} i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
                 reject(code);
             }
         });
