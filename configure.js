@@ -53,43 +53,37 @@ types.forEach(t => {
 });
 process.stdout.write(`\x1b[${lineSize}C\x1b[${lineCount}A`);
 process.stdout.write(done());
-process.stdout.write(`\x1b[${lineSize+5}D\x1b[${lineCount}B`); // +5 == "Done!".length
+process.stdout.write(`\x1b[${lineSize + 5}D\x1b[${lineCount}B`); // +5 == "Done!".length
 
 Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
         process.stdout.write(`> Installing dependencies...`);
-        let proc = cp.spawn(npm, ["install", "--save", "--save-dev"], {
+        let proc = cp.spawn(npm, ["install", "-P", "-D"], {
             shell: true,
             windowsHide: true,
         });
-        //proc.stdout.on("data", data => console.log(data.toString()));
-        //proc.stderr.on("data", data => console.log(data.toString()));
         proc.on("close", code => {
-            //console.log("npm finished with code " + code);
             if(code === 0) {
                 process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
-                process.stderr.write(`\x1b[31mError!\n  ! Failed to install dependencies - run '${npm} i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
+                process.stderr.write(`\x1b[31mError!\n  ! Failed to install dependencies - run '${npm} i' and diagnose.\n  ! Breaking...\x1b[0m\n`);
                 reject(code);
             }
         });
     }))
     .then(() => new Promise((resolve, reject) => {
         process.stdout.write(`> Updating dependencies to the latest versions...`);
-        let proc = cp.spawn(npm, ["update", "--save", "--save-dev"], {
+        let proc = cp.spawn(npm, ["update", "-P", "-D"], {
             shell: true,
             windowsHide: true,
         });
-        //proc.stdout.on("data", data => console.log(data.toString()));
-        //proc.stderr.on("data", data => console.log(data.toString()));
         proc.on("close", code => {
-            //console.log("npm finished with code " + code);
             if(code === 0) {
                 process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
-                process.stderr.write(`\x1b[31mError!\n  ! Failed to update dependencies - run '${npm} i' and diagnose.\n  ! Proceeding anyway...\x1b[0m\n`);
+                process.stderr.write(`\x1b[31mError!\n  ! Failed to update dependencies - run '${npm} update' and diagnose.\n  ! Breaking...\x1b[0m\n`);
                 reject(code);
             }
         });
@@ -99,16 +93,28 @@ Promise.resolve()
         fs.rmSync(path.join(pwd, "configure.js"), {recursive: true, force: true});
         process.stdout.write(`${done()}\n`);
     })
-    .then(() => {
+    .then(() => new Promise((resolve, reject) => {
         process.stdout.write(`> Deleting git remote reference...`);
-        process.stdout.write(`Coming Soon!\n`);
-    })
+        let proc = cp.spawn("git", ["remote", "remove", "origin"], {
+            shell: true,
+            windowsHide: true,
+        });
+        proc.on("close", code => {
+            if(code === 0) {
+                process.stdout.write(`${done()}\n`);
+                resolve();
+            } else {
+                process.stderr.write(`\x1b[31mError!\n  ! Failed to delete remote reference - run 'git remote remove origin' and diagnose.\n  ! Breaking...\x1b[0m\n`);
+                reject(code);
+            }
+        });
+    }))
     .then(() => {
         process.stdout.write(`\x1b[32mAll done!\x1b[0m\n`);
     });
 
 function printUsage() {
-    console.log(`Usage: node configure.js <${types.join("|")}>`);
+    console.log(`Usage: node configure.js <${types.join("|")}> [--use-pnpm]`);
 }
 function done() {
     return "\x1b[32mDone!\x1b[0m";
