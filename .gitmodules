@@ -1,0 +1,8 @@
+[submodule "app-express/assets/notifier"]
+	path = app-express/assets/notifier
+	url = https://github.com/thebrenny/notifier
+	ignore = all
+[submodule "app-express/routes/express-errors"]
+	path = app-express/routes/express-errors
+	url = https://github.com/thebrenny/express-errors
+	ignore = all
