@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const cp = require("child_process");
 const types = ["vanilla", "express"];
-let npm = "npm";
+const times = [];
 
 if(process.argv.length < 3) {
     printUsage();
@@ -17,10 +17,11 @@ if(types.includes(type) === false) {
     process.exit(2);
 }
 
+let npm = "npm";
 if(process.argv.includes("--use-pnpm")) npm = "pnpm";
 
 console.log("Cheers for choosing BWS! - Making server: " + type);
-let startTime = performance.now();
+time(); // Start the timer
 
 process.stdout.write("> Renaming files and folders...");
 const pwd = fs.realpathSync(path.resolve(__dirname, "."));
@@ -45,15 +46,17 @@ types.forEach(t => {
             fs.rmSync(path.join(pwd, f), {recursive: true, force: true});
             process.stdout.write(`${done()}\n`);
         } catch(e) {
-            process.stderr.write(`\x1b[31mError!\n    ! Failed to remove ${f}. Do this manually.\x1b[0m\n`);
-            lineCount += 1; // bc we print on a new line!
+            process.stderr.write(error(`Failed to remove ${f}. Do this manually.`, false));
+            lineCount += 1; // bc we print a message on a new line!
         }
         lineCount += 1; // bc we're adding a line anyway
     });
 });
+// Move back to the end of the first line
 process.stdout.write(`\x1b[${lineSize}C\x1b[${lineCount}A`);
-process.stdout.write(done());
-process.stdout.write(`\x1b[${lineSize + 5}D\x1b[${lineCount}B`); // +5 == "Done!".length
+let d = done(rmFiles.length * types.length)
+process.stdout.write(d);
+process.stdout.write(`\x1b[${lineSize + d.length}D\x1b[${lineCount}B`); // +5 == "Done!".length
 
 Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
@@ -67,7 +70,7 @@ Promise.resolve()
                 process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
-                process.stderr.write(`\x1b[31mError!\n  ! Failed to install dependencies - run '${npm} i' and diagnose.\n  ! Breaking...\x1b[0m\n`);
+                process.stderr.write(error(`Failed to install dependencies - run '${npm} i' and diagnose.`, true));
                 reject(code);
             }
         });
@@ -83,7 +86,7 @@ Promise.resolve()
                 process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
-                process.stderr.write(`\x1b[31mError!\n  ! Failed to update dependencies - run '${npm} update' and diagnose.\n  ! Breaking...\x1b[0m\n`);
+                process.stderr.write(error(`Failed to update dependencies - run '${npm} update' and diagnose.`, true));
                 reject(code);
             }
         });
@@ -94,7 +97,7 @@ Promise.resolve()
         process.stdout.write(`${done()}\n`);
     })
     .then(() => new Promise((resolve, reject) => {
-        process.stdout.write(`> Deleting git remote reference...`);
+        process.stdout.write(`> Initialising git submodules...`);
         let proc = cp.spawn("git", ["remote", "remove", "origin"], {
             shell: true,
             windowsHide: true,
@@ -104,18 +107,65 @@ Promise.resolve()
                 process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
-                process.stderr.write(`\x1b[31mError!\n  ! Failed to delete remote reference - run 'git remote remove origin' and diagnose.\n  ! Breaking...\x1b[0m\n`);
-                reject(code);
+                process.stderr.write(error(`Failed to delete remote reference - run 'git remote remove origin' and diagnose.`));
+                resolve();
+            }
+        });
+    }))
+    .then(() => new Promise((resolve, reject) => {
+        process.stdout.write(`> Deleting git remote reference...`);
+        let proc = cp.spawn("git submodule init && git submodule update", {
+            shell: true,
+            windowsHide: true,
+        });
+        proc.on("close", code => {
+            if(code === 0) {
+                process.stdout.write(`${done()}\n`);
+                resolve();
+            } else {
+                process.stderr.write(error(`Failed to initialise submodules - run 'git submodule init && git submodule update' and diagnose.`));
+                resolve();
             }
         });
     }))
     .then(() => {
-        process.stdout.write(`\x1b[32mAll done!\x1b[0m\n`);
+        let total = prettyTime(time(-1));
+        process.stdout.write(`\x1b[32mAll done in ${total}!\x1b[0m\n`);
     });
 
 function printUsage() {
     console.log(`Usage: node configure.js <${types.join("|")}> [--use-pnpm]`);
 }
-function done() {
-    return "\x1b[32mDone!\x1b[0m";
+// TODO: Make a time prettier fn
+function prettyTime(time) {
+    let ms = time % 1000;
+    time = (time - ms) / 1000;
+    let s = time % 60;
+    time = (time - s) / 60;
+    let m = time % 60;
+    time = (time - m) / 60;
+    let h = time;
+
+    let builder = "";
+    if(h > 0) builder += `${h}h `;
+    if(m > 0) builder += `${m}m `;
+    if(s > 0) builder += `${s}s `;
+    if(ms > 0) builder += `${Math.round(ms)}ms`;
+
+    return builder.trim();
+}
+function time(furtherBack = 0) {
+    let now = performance.now();
+    times.push(now);
+    let diff = now - times[0];
+    if(furtherBack !== -1) diff = times.length >= 2 + furtherBack ? now - times[times.length - (2 + furtherBack)] : 0;
+    return diff;
+}
+function done(furtherBack) {
+    let timeTaken = prettyTime(time(furtherBack));
+    return `  \x1b[32mDone in ${timeTaken}!\x1b[0m`;
+}
+function error(message, breaking) {
+    let timeTaken = prettyTime(time());
+    return `  \x1b[31mError in ${timeTaken}!\n  ! ${message}${!!breaking ? "\n  ! Breaking..." : ""}\x1b[0m\n`;
 }
