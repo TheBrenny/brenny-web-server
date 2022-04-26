@@ -63,7 +63,7 @@
     app.use(require("./app/routes/routes"));
 
     // Error handling -- scoped to the root layer!
-    const errRoutes = require("./app/routes/errors");
+    const errRoutes = require("./app/routes/express-errors/routes")(!config.env.isDev);
     app.all("/*", errRoutes.notFound);
     app.use(errRoutes.handler);
 
