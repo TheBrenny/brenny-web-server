@@ -114,16 +114,22 @@ Promise.resolve()
     }))
     .then(() => new Promise((resolve, reject) => {
         process.stdout.write(`> Initialising git submodules...`);
-        let proc = cp.spawn("git submodule update --init --recurse", {
+        let proc = cp.spawn("git submodule init && git submodule update", {
             shell: true,
             windowsHide: true,
         });
+        let stderr = "";
+        proc.stderr.on("data", (chunk) => stderr = stderr + chunk.toString());
         proc.on("close", code => {
             if(code === 0) {
                 process.stdout.write(`${done()}\n`);
                 resolve();
             } else {
-                process.stderr.write(error(`Failed to initialise submodules - run 'git submodule init && git submodule update' and diagnose.`));
+                stderr = stderr.split("\n").map(l => "    " + l).join("\n");
+                process.stderr.write(error([
+                    `Failed to initialise submodules. Stderr is below:`,
+                    stderr
+                ].join("\n")));
                 resolve();
             }
         });
