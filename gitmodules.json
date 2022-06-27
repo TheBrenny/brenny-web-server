@@ -1,0 +1,12 @@
+[
+	{
+		"name": "notifier",
+		"path": "app/assets/notifier",
+		"url": "https://github.com/thebrenny/notifier"
+	},
+	{
+		"name": "express-errors",
+		"path": "app/routes/express-errors",
+		"url": "https://github.com/thebrenny/express-errors"
+	}
+]

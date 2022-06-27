@@ -30,8 +30,9 @@ fs.renameSync(path.join(pwd, `app-${type}`), path.join(pwd, "app"));
 fs.renameSync(path.join(pwd, `server-${type}.js`), path.join(pwd, "server.js"));
 process.stdout.write(done() + "\n");
 
-let lineSize = "> Removing redundant files and folders...".length;
-process.stdout.write("> Removing redundant files and folders...\n");
+let outline = "> Removing redundant files and folders...";
+let lineSize = outline.length;
+process.stdout.write(outline + "\n");
 let rmFiles = [
     "package-#.json",
     "app-#/",
@@ -107,28 +108,48 @@ Promise.resolve()
             }
         });
     }))
-    .then(() => new Promise((resolve, reject) => {
-        process.stdout.write(`> Initialising git submodules...`);
-        fs.renameSync(path.join(pwd, `_.gitmodules`), path.join(pwd, ".gitmodules"));
-        let proc = cp.spawn("git submodule init && git submodule update", {
-            shell: true,
-            windowsHide: true,
-        });
-        let stderr = "";
-        proc.stderr.on("data", (chunk) => stderr = stderr + chunk.toString());
-        proc.on("close", code => {
-            if(code === 0) {
-                process.stdout.write(`${done()}\n`);
-                resolve();
-            } else {
-                stderr = stderr.split("\n").map(l => "    " + l).join("\n");
-                process.stderr.write(error([
-                    `Failed to initialise submodules. Stderr is below:`,
-                    stderr
-                ].join("\n")));
-                resolve();
-            }
-        });
+    .then(() => new Promise(async (resolve, reject) => {
+        outline = `> Initialising git submodules...`;
+        lineSize = outline.length;
+        process.stdout.write(outline + "\n");
+        let submods = JSON.parse(fs.readFileSync(path.join(pwd, "gitmodules.json"), {encoding: "utf8"}));
+
+
+        lineCount = 1;
+        for(let submod of submods) {
+            await new Promise((innerResolve, reject) => {
+                process.stdout.write(`  > Adding ${submod.name}...`);
+
+                let proc = cp.spawn(`git submodule add --name "${submod.name}" "${submod.url}" ${submod.path}`, {
+                    shell: true,
+                    windowsHide: true,
+                });
+                let stderr = "";
+                proc.stderr.on("data", (chunk) => stderr = stderr + chunk.toString());
+                proc.on("close", code => {
+                    if(code === 0) {
+                        process.stdout.write(`${done()}\n`);
+                        innerResolve();
+                    } else {
+                        stderr = stderr.split("\n").map(l => "    " + l).join("\n");
+                        process.stderr.write(error(`Failed to initialise submodules. Stderr is below:`));
+                        lineCount += 1;
+                        innerResolve();
+                    }
+                });
+                lineCount += 1; // bc we're adding a line anyway
+            });
+        }
+
+        // Clean the gitmod json
+        fs.rmSync(path.join(pwd, "gitmodules.json"), {recursive: true, force: true});
+
+        // Move back to the end of the first line
+        process.stdout.write(`\x1b[${lineSize}C\x1b[${lineCount}A`);
+        let d = done(submods.length)
+        process.stdout.write(d);
+        process.stdout.write(`\x1b[${lineSize + d.length}D\x1b[${lineCount}B`);
+        resolve();
     }))
     .then(() => {
         process.stdout.write(`> Deleting configure script...`);
