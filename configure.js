@@ -114,7 +114,7 @@ Promise.resolve()
     }))
     .then(() => new Promise((resolve, reject) => {
         process.stdout.write(`> Initialising git submodules...`);
-        let proc = cp.spawn("git submodule init && git submodule update", {
+        let proc = cp.spawn("git submodule update --init --recurse", {
             shell: true,
             windowsHide: true,
         });
