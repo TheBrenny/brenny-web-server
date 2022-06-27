@@ -97,7 +97,7 @@ Promise.resolve()
         process.stdout.write(`${done()}\n`);
     })
     .then(() => new Promise((resolve, reject) => {
-        process.stdout.write(`> Initialising git submodules...`);
+        process.stdout.write(`> Deleting git remote reference...`);
         let proc = cp.spawn("git", ["remote", "remove", "origin"], {
             shell: true,
             windowsHide: true,
@@ -113,7 +113,7 @@ Promise.resolve()
         });
     }))
     .then(() => new Promise((resolve, reject) => {
-        process.stdout.write(`> Deleting git remote reference...`);
+        process.stdout.write(`> Initialising git submodules...`);
         let proc = cp.spawn("git submodule init && git submodule update", {
             shell: true,
             windowsHide: true,
@@ -136,7 +136,7 @@ Promise.resolve()
 function printUsage() {
     console.log(`Usage: node configure.js <${types.join("|")}> [--use-pnpm]`);
 }
-// TODO: Make a time prettier fn
+
 function prettyTime(time) {
     let ms = time % 1000;
     time = (time - ms) / 1000;
