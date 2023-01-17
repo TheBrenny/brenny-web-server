@@ -1,3 +1,5 @@
+// TODO: Add an argument that lets us specify a custom package name
+
 const path = require("path");
 const fs = require("fs");
 const cp = require("child_process");
