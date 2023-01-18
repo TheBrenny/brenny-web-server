@@ -27,25 +27,25 @@
     "homepage": "https://github.com/TheBrenny/brenny-web-server#readme",
     "dependencies": {
         "cors": "^2.8.5",
-        "dotenv": "^10.0.0",
+        "dotenv": "^16.0.3",
         "express": "^5.0.0-alpha.8",
-        "express-mysql-session": "^2.1.7",
-        "express-session": "^1.17.2",
-        "helmet": "^4.6.0",
+        "express-mysql-session": "^2.1.8",
+        "express-session": "^1.17.3",
+        "helmet": "^6.0.1",
         "morgan": "^1.10.0",
-        "mysql2": "^2.3.3",
+        "mysql2": "^3.0.1",
         "node-fetch": "^2.6.1",
         "nonce-express": "^1.0.2",
-        "scetch": "^1.5.5"
+        "scetch": "^1.6.0"
     },
     "devDependencies": {
-        "browser-sync": "^2.27.5",
+        "browser-sync": "^2.27.11",
         "gulp": "^4.0.2",
         "gulp-nodemon": "^2.5.0",
-        "gulp-sass": "^5.0.0",
+        "gulp-sass": "^5.1.0",
         "gulp-sourcemaps": "^3.0.0",
-        "nodemon": "^2.0.12",
-        "sass": "^1.42.0",
+        "nodemon": "^2.0.20",
+        "sass": "^1.57.1",
         "sql-cli-repl": "^1.2.1"
     }
 }
