@@ -5,28 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "args": [
-        "default"
-      ],
-      "name": "gulp default",
-      "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
-      "request": "launch",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "pwa-node",
-      "console": "integratedTerminal",
-      // "preLaunchTask": "startMysql",
-      "resolveSourceMapLocations": [
-        "${workspaceFolder}/**",
-        "!**/node_modules/**"
-      ],
-      "env": {
-        "NODE_ENV": "dev"
-      },
-      "runtimeArgs": [
-        "--preserve-symlinks",
-      ]
+        "name": "gulp default",
+        "request": "launch",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [
+            "run",
+            "debug",
+            "--preserve-symlinks"
+        ],
+        "env": {
+            "NODE_ENV": "dev"
+        },
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "console": "integratedTerminal",
+        "resolveSourceMapLocations": [
+            "${workspaceFolder}/**",
+            "!**/node_modules/**"
+        ],
+        "type": "node"
     },
     {
       "type": "node",
