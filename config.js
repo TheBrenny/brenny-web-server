@@ -40,7 +40,7 @@ module.exports.morgan = {
 };
 
 module.exports.serverInfo = {
-    host: process.env.HOST || "localhost",
+    host: process.env.HOST,
     port: parseInt(process.env.PORT || 80)
 };
 

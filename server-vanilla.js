@@ -23,7 +23,11 @@ const server = http.createServer((req, res) => {
     })();
 });
 
-server.listen(serverInfo.port, serverInfo.host, () => {
-    if (process.env.NODE_ENV === 'dev' && process.env.GUPLING == 'true') serverInfo.port = 81;
-    console.log(`Server is listening at http://${serverInfo.host}:${serverInfo.port}...`);
-});
+let fnArgs = [serverInfo.port];
+if(!!serverInfo.host) fnArgs.push(serverInfo.host);
+fnArgs.push(() => {
+    if(config.env.isDev) console.log(`Browsersync might be listening at http://${serverInfo.host}:${serverInfo.port + 1}`);
+    console.log(`Server is listening at http://${serverInfo.host}:${serverInfo.port}`);
+})
+
+server.listen.apply(app, fnArgs);

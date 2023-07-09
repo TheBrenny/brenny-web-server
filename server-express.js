@@ -67,10 +67,14 @@
     app.all("/(.*)", errRoutes.notFound);
     app.use(errRoutes.handler);
 
-    app.listen(serverInfo.port, serverInfo.host, () => {
-        if(config.env.isDev) console.log(`Browsersync might be listening at http://${serverInfo.host}:${serverInfo.port + 1}...`);
-        console.log(`Server is listening at http://${serverInfo.host}:${serverInfo.port}...`);
-    });
+    let fnArgs = [serverInfo.port];
+    if(!!serverInfo.host) fnArgs.push(serverInfo.host);
+    fnArgs.push(() => {
+        if(config.env.isDev) console.log(`Browsersync might be listening at http://${serverInfo.host}:${serverInfo.port + 1}`);
+        console.log(`Server is listening at http://${serverInfo.host}:${serverInfo.port}`);
+    })
+
+    app.listen.apply(app, fnArgs);
 })().catch(err => {
     console.error(err);
     process.exit(1);
